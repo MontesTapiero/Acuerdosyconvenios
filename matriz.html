@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario Matriz Contratos</title>
+    <link rel="icon" href="logo.jpg" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #2980b9;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+        }
+
+        nav {
+            background-color: #333;
+            padding: 10px 0;
+        }
+
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        nav ul li {
+            margin: 0 15px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-align: center;
+            padding: 10px 15px;
+            text-decoration: none;
+            font-size: 1.1em;
+            display: block;
+        }
+
+        nav ul li a:hover {
+            background-color: #2980b9;
+            border-radius: 4px;
+        }
+
+        form {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #f4f4f9;
+        }
+
+        h2 {
+            margin-bottom: 10px;
+            color: #2980b9;
+            font-size: 1.2em;
+            border-bottom: 2px solid #4CAF50;
+            padding-bottom: 5px;
+        }
+
+        label {
+            display: block;
+            margin: 15px 0 5px;
+            font-weight: bold;
+        }
+
+        input[type="text"], input[type="date"], select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .radio-group {
+            display: flex;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+
+        .radio-group label {
+            width: 30%;
+            margin: 5px 0;
+            display: flex;
+            align-items: center;
+        }
+
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: background-color 0.3s;
+            margin-top: 20px;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #2980b9;
+        }
+
+        a {
+            display: block;
+            margin-top: 20px;
+            text-align: center;
+            color: #2980b9;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+
+    </style>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            // Cargar departamentos al cargar la página
+            $.ajax({
+                url: 'load_departamentos.php',
+                type: 'GET',
+                dataType: 'json',
+                success: function(response) {
+                    $('#departamento').empty();
+                    $('#departamento').append('<option value="">Seleccione un Departamento</option>');
+                    $.each(response, function(index, departamento) {
+                        $('#departamento').append('<option value="'+departamento.id_departamento+'">'+departamento.nombre_departamento+'</option>');
+                    });
+                }
+            });
+
+            // Cargar municipios al seleccionar un departamento
+            $('#departamento').change(function() {
+                var id_departamento = $(this).val();
+                $.ajax({
+                    url: 'load_municipios.php',
+                    type: 'GET',
+                    data: {id_departamento: id_departamento},
+                    dataType: 'json',
+                    success: function(response) {
+                        $('#municipio').empty();
+                        $('#municipio').append('<option value="">Seleccione un Municipio</option>');
+                        $.each(response, function(index, municipio) {
+                            $('#municipio').append('<option value="'+municipio.id_municipio+'">'+municipio.nombre_municipio+'</option>');
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+
+
+<body>
+    <header>
+        <h1>INGRESO DATOS</h1>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="index.html"><i class="fas fa-home"></i> Inicio</a></li>
+            <li><a href="matriz.html"><i class="fas fa-file-alt"></i> Nuevo Registro</a></li>
+            <li><a href="relacion_novedades.php"><i class="fa fa-list"></i> Relación Reducida</a></li>
+            <li><a href="relacion_contratos.php"><i class="fa fa-table"></i> Relación Completa</a></li>
+        </ul>
+    </nav>
+
+
+    <form action="process.php" method="POST">
+
+        <section>
+            <h2>AÑO</h2>      
+            <div class="radio-group">
+                <label><input type="radio" id="2022" name="ano" value="2022"> 2022</label>
+                <label><input type="radio" id="2023" name="ano" value="2023"> 2023</label>
+                <label><input type="radio" id="2024" name="ano" value="2024"> 2024</label>                              
+            </div>      
+        </section>
+        <section>
+            <h2>MES</h2>      
+            <div class="radio-group">
+                <label><input type="radio" id="ENERO" name="mes" value="ENERO"> ENERO</label>
+                <label><input type="radio" id="FEBRERO" name="mes" value="FEBRERO"> FEBRERO</label>
+                <label><input type="radio" id="MARZO" name="mes" value="MARZO"> MARZO</label>
+                <label><input type="radio" id="ABRIL" name="mes" value="ABRIL"> ABRIL</label>
+                <label><input type="radio" id="MAYO" name="mes" value="MAYO"> MAYO</label>
+                <label><input type="radio" id="JUNIO" name="mes" value="JUNIO"> JUNIO</label>
+                <label><input type="radio" id="JULIO" name="mes" value="JULIO"> JULIO</label>
+                <label><input type="radio" id="AGOSTO" name="mes" value="AGOSTO"> AGOSTO</label>
+                <label><input type="radio" id="SEPTIEMBRE" name="mes" value="SEPTIEMBRE"> SEPTIEMBRE</label>
+                <label><input type="radio" id="OCTUBRE" name="mes" value="OCTUBRE"> OCTUBRE</label>
+                <label><input type="radio" id="NOVIEMBRE" name="mes" value="NOVIEMBRE"> NOVIEMBRE</label>
+                <label><input type="radio" id="DICIEMBRE" name="mes" value="DICIEMBRE"> DICIEMBRE</label>
+            </div>      
+        </section>
+
+        <section>
+            <h2>TIPO</h2>      
+            <div class="radio-group">
+            <label><input type="radio" id="ACUERDO DE SERVICIOS" name="tipo" value="ACUERDO DE SERVICIOS"> ACUERDO DE SERVICIOS</label>
+            <label><input type="radio" id="CONVENIO INTERADMINISTRATIVO" name="tipo" value="CONVENIO INTERADMINISTRATIVO"> CONVENIO INTERADMINISTRATIVO</label>
+            <label><input type="radio" id="INTEROPERABILIDAD" name="tipo" value="INTEROPERABILIDAD"> INTEROPERABILIDAD</label>
+             <label><input type="radio" id="INTEROPERABILIDAD" name="tipo" value="INTEROPERABILIDAD"> INTEROPERABILIDAD</label>
+            </div>      
+        </section>
+
+        <label for="nombre_acuerdo">Nombre del acuerdo o convenio</label>
+        <input type="text" id="nombre_acuerdo" name="nombre_acuerdo" required>
+        <label for="entidad">Entidad</label>
+        <input type="text" id="entidad" name="entidad" required>
+        <label for="departamento">Departamento</label>
+        <select id="departamento" name="departamento" required></select>
+        <label for="municipio">Municipio</label>
+        <select id="municipio" name="municipio" required></select><hr><hr>
+
+        <label for="representante_legal_entidad">Representante legal entidad</label>
+        <input type="text" id="representante_legal_entidad" name="representante_legal_entidad" required>
+        <label for="ident_rep_entidad">Identificación</label>
+        <input type="text" id="ident_rep_entidad" name="ident_rep_entidad" required>
+        <label for="cargo_ent">Cargo</label>
+        <input type="text" id="cargo_ent" name="cargo_ent" required><hr><hr>
+
+        <label for="representante_legal_snr">Representante legal SNR</label>
+        <input type="text" id="representante_legal_snr" name="representante_legal_snr" required>
+        <label for="Ident_rep_snr">Identificación</label>
+        <input type="text" id="Ident_rep_snr" name="Ident_rep_snr" required>
+        <label for="cargo_snr">Cargo</label>
+        <input type="text" id="cargo_snr" name="cargo_snr" required><hr><hr>
+
+        <label for="supervisor_contrato">Supervisor Contrato SNR</label>
+        <input type="text" id="supervisor_contrato" name="supervisor_contrato" required>
+        <label for="ident_supervisor">Identificación</label>
+        <input type="text" id="ident_supervisor" name="ident_supervisor" required>
+        <label for="cargo_sup_snr">Cargo</label>
+        <input type="text" id="cargo_supervisor" name="cargo_supervisor" required><hr><hr>
+        
+        <section>
+                <h2>Cuantia-SI/NO</h2>      
+            <div class="radio-group">
+                <label><input type="radio" id="SI" name="con_cuantia" value="SI"> SI</label>
+                <label><input type="radio" id="NO" name="con_cuantia" value="NO"> NO</label>
+            </div>        
+        </section>
+
+        <section>
+            <h2>Aplicativos </h2>      
+            <div class="radio-group">
+                <label><input type="radio" id="VUR" name="aplicativos" value="VUR"> VUR</label>
+                <label><input type="radio" id="REL" name="aplicativos" value="REL"> REL</label>
+                <label><input type="radio" id="VUR-REL" name="aplicativos" value="VUR-REL"> VUR - REL</label>
+            </div>      
+        </section>
+
+        <label for="usuarios_contrasenas">Usuario / Correo Electrónico / Celular Contacto</label>
+        <textarea name="usuarios_contrasenas" class="form-control" cols="99" rows="5" columns placeholder=""></textarea>
+
+        
+
+        <label for="plazo_ejecucion">Plazo de ejecución (años)</label>
+        <input type="text" id="plazo_ejecucion" name="plazo_ejecucion" required>
+
+        <section>
+            <h2>Estado</h2>      
+            <div class="radio-group">
+                <label><input type="radio" id="REVISION TECNICA" name="estado" value="REVISION TECNICA"> REVISION TECNICA</label>
+                <label><input type="radio" id="REVISION JURIDICA" name="estado" value="REVISION JURIDICA"> REVISION JURIDICA</label>
+                <label><input type="radio" id="FIRMA JEFE" name="estado" value="FIRMA JEFE"> FIRMA JEFE</label>
+                <label><input type="radio" id="CELEBRADO" name="estado" value="CELEBRADO"> CELEBRADO</label>
+            </div>      
+        </section>
+
+        <label for="numero_convenio">No. CONVENIO</label>
+        <input type="text" id="numero_convenio" name="numero_convenio" required>
+        <label for="fecha_inicio_convenio">fecha de inicio del Convenio</label>
+        <input type="date" id="fecha_inicio_convenio" name="fecha_inicio_convenio" required>
+        <label for="observ_seguim_respon">OBSERVACIONES - SEGUIMIENTO - RESPONSABLE</label>
+        <input type="text" id="observ_seguim_respon" name="observ_seguim_respon" required>
+        
+            
+    <!-- <div class="form-group">
+        <label for="documentos">Cargar Documentos:</label>
+        <input type="file" name="documentos[]" id="documentos" class="form-control" multiple>
+    </div> -->
+
+    <!-- <button class="btn btn-success" name="update">Actualizar</button> -->
+
+
+        <input type="submit" value="CREAR">
+        <br><br><a href="relacion_novedades.php">Relación</a><br><br><br>
+
+        
+    </form>
+
+    <footer>
+        <p>&copy; 2024 Gestión Acuerdos, Convenios e Interoperabilidad SNR</p>
+    </footer>
+   
+</html>
