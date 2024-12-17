@@ -1,14 +1,67 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Gestión Acuerdos, Convenios e Interoperabilidad SNR</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="icon" href="snr.ico" type="image/x-icon">
+    <link rel="stylesheet" href="style2.css">
 </head>
 <body>
-    <h1>
-        Como esta Miguelito
-    </h1>
+    <header>
+        <h1>Gestión Acuerdos, Convenios e Interoperabilidad SNR</h1>
+    </header>
     
+  
+ <nav>
+        <ul>
+            <li><a href="index.html"><i class="fas fa-home"></i> Inicio</a></li>
+            <li><a href="matriz.html"><i class="fas fa-file-alt"></i> Nuevo Registro</a></li>
+            <li><a href="relacion_novedades.php"><i class="fa fa-list"></i> Relación Reducida</a></li>
+            <li><a href="relacion_contratos.php"><i class="fa fa-table"></i> Relación Completa</a></li>   
+        </ul>
+    </nav>
+
+
+  <div class="container">
+        <div class="content">
+            <div>
+                <h2>Estado</h2>
+                <p>Consulta por Estado Actual.</p>
+                <a href="rel_rev_tecnica.php">Revisión Tecnica</a><br>
+                <a href="rel_rev_juridica.php">Revisión Jurídica</a><br>
+                <a href="rel_firma.php">Para Firma del Jefe</a><br>
+                <a href="rel_celebrado.php">Celebrados</a>
+            </div>
+            <div>
+                <h2>Tipo</h2>
+                <p>Consulta por Tipo de Contrato.</p>
+                <a href="rel_acuerdo_serv.php">Acuerdos de Servicios</a><br>
+                <a href="rel_convenio_adm.php">Convenios Administrativos</a><br>
+                <a href="rel_interoperabilidad.php">Interoperabilidad</a>
+            </div>
+            <div>
+                <h2>Aplicativos</h2>
+                <p>Revisa Contratos por Aplicativo.</p>
+                <a href="rel_vur.php">VUR</a><br>
+                <a href="rel_rel.php">REL</a><br>
+                <a href="rel_vur_rel.php">VUR-REL</a>
+            </div>
+            <div>
+                <h2>Vencimientos</h2>
+                <p>Revisa periodos de vencimiento.</p>
+                <a href="rel_vence.php">Vencimiento menor a 90 días</a><br>
+                <a href="rel_vencidas.php">Vencidos</a>
+            </div>
+            <br><br><br>
+        </div>
+    </div>
+  
+    
+
+    <footer>
+        <p>&copy; 2024 Gestión Acuerdos, Convenios e Interoperabilidad SNR</p>
+    </footer>
 </body>
 </html>
